@@ -15,9 +15,7 @@ RUN docker-php-ext-install intl pdo pdo_mysql mbstring zip exif pcntl bcmath
 ARG UID=1000
 ARG GID=1000
 
-RUN groupadd -g ${GID} deployer && \
-    useradd -u ${UID} -g deployer -m deployer && \
-    usermod -a -G www-data deployer
+RUN usermod -u ${UID} www-data && groupmod -g ${GID} www-data
 
 USER www-data
 

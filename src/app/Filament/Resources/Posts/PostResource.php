@@ -8,19 +8,21 @@ use App\Filament\Resources\Posts\Pages\ListPosts;
 use App\Filament\Resources\Posts\Pages\ViewPost;
 use App\Filament\Resources\Posts\Schemas\PostForm;
 use App\Filament\Resources\Posts\Schemas\PostInfolist;
+use Filament\Actions\Action;
+use Filament\Actions\BulkAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\IconColumn;
-use App\Filament\Resources\Posts\Tables\PostsTable;
 use App\Models\Post;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Collection;
 
 class PostResource extends Resource
 {
@@ -69,11 +71,15 @@ class PostResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                Action::make('edit')
+                    ->url(fn (Post $record): string => self::getUrl('edit', ['record' => $record]))
+                    ->openUrlInNewTab()
             ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkAction::make('delete')
+                    ->requiresConfirmation()
+                    ->action(fn (Collection $records) => $records->each->delete())
             ]);
     }
 
