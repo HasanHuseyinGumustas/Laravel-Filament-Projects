@@ -14,6 +14,15 @@ Amaç, modern PHP uygulamalarında hızlı ve ölçeklenebilir yönetim paneller
 
 ---
 
+## ToDo
+- Oyun incelemeleri ve oyun detayları için oluşturulacak sayfalar için post oluşturma, resim ekleme ve puanlama gibi özelliklerin hazırlandığı ve gözlemlenebildiği sayfalar.
+- Oyun incelemelerinde onaylama ve reddetme seçenekleri olacak.
+- Oyunlara gelen yorumların izlenebilmesi ve düzenlenebilmesi için sayfalar.
+- Kullanıcıların listelendiği ve düzenlenbildiği sayfa.
+- Oyun inceleme kanallarının düzenlendiği ve eklenebildiği sayfa. 
+
+--
+
 ## 🛠️ Kurulum
 
 Projeyi klonladıktan sonra aşağıdaki adımları izleyin:
