@@ -158,6 +158,24 @@
       <path value="$PROJECT_DIR$/src/vendor/league/uri-components" />
       <path value="$PROJECT_DIR$/src/vendor/chillerlan/php-qrcode" />
       <path value="$PROJECT_DIR$/src/vendor/chillerlan/php-settings-container" />
+      <path value="$PROJECT_DIR$/src/vendor/spatie/laravel-permission" />
+      <path value="$PROJECT_DIR$/src/vendor/bezhansalleh/filament-plugin-essentials" />
+      <path value="$PROJECT_DIR$/src/vendor/bezhansalleh/filament-shield" />
+      <path value="$PROJECT_DIR$/src/vendor/mtvs/eloquent-approval" />
+      <path value="$PROJECT_DIR$/src/vendor/fdt2k/laravel-package-service-provider" />
+      <path value="$PROJECT_DIR$/src/vendor/kda/eloquent-defaultattributes" />
+      <path value="$PROJECT_DIR$/src/vendor/kda/eloquent-medialibrary-item" />
+      <path value="$PROJECT_DIR$/src/vendor/pragmarx/yaml" />
+      <path value="$PROJECT_DIR$/src/vendor/maennchen/zipstream-php" />
+      <path value="$PROJECT_DIR$/src/vendor/spatie/temporary-directory" />
+      <path value="$PROJECT_DIR$/src/vendor/spatie/laravel-medialibrary" />
+      <path value="$PROJECT_DIR$/src/vendor/spatie/image" />
+      <path value="$PROJECT_DIR$/src/vendor/spatie/image-optimizer" />
+      <path value="$PROJECT_DIR$/src/vendor/cocur/slugify" />
+      <path value="$PROJECT_DIR$/src/vendor/cviebrock/eloquent-sluggable" />
+      <path value="$PROJECT_DIR$/src/vendor/spatie/laravel-activitylog" />
+      <path value="$PROJECT_DIR$/src/vendor/rennokki/laravel-eloquent-query-cache" />
+      <path value="$PROJECT_DIR$/src/vendor/filament/spatie-laravel-media-library-plugin" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2">
