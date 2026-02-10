@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Events\Schemas;
 
+use App\Filament\Resources\Locations\LocationResource;
 use App\Models\District;
 use App\Models\Event;
 use App\Models\Location;
@@ -9,9 +10,11 @@ use App\Models\Province;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Grid;
@@ -28,7 +31,6 @@ class EventForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
-
             ->columns(1)
             ->components([
                 Wizard::make()
@@ -38,7 +40,7 @@ class EventForm
                             ->columnSpanFull()
                             ->icon('heroicon-o-information-circle')
                             ->schema([
-                                Grid::make(2)->schema([
+                                Grid::make(3)->schema([
                                     TextInput::make('title')
                                         ->label('Başlık')
                                         ->required()
@@ -48,11 +50,6 @@ class EventForm
                                                 ? $set('slug', Str::slug($state))
                                                 : null
                                         )
-                                        ->maxLength(255),
-
-                                    TextInput::make('slug')
-                                        ->required()
-                                        ->unique(Event::class, 'slug', ignoreRecord: true)
                                         ->maxLength(255),
 
                                     Select::make('event_category_id')
@@ -73,94 +70,36 @@ class EventForm
                         Wizard\Step::make('Konum ve Tarih')
                             ->icon('heroicon-o-information-circle')
                             ->schema([
-                                Select::make('search_location')
-                                    ->label('Google Haritalarda Ara')
-                                    ->placeholder('Mekan adı veya adres yazın...')
+                                Action::make('createLocation')
+                                    ->label('Yeni Konum Ekle')
+                                    ->icon('heroicon-o-map-pin')
+                                    ->modalHeading('Yeni Konum Oluştur')
+                                    ->modalSubmitActionLabel('Oluştur')
+                                    ->modalWidth('7xl')
+                                    ->schema(fn() => LocationResource::form(
+                                        app(\Filament\Schemas\Schema::class)
+                                    )->getComponents())
+                                    ->action(function (array $data, Set $set) {
+                                        $location = Location::create($data);
+
+                                        $set('location_id', $location->id);
+                                    }),
+
+                                Select::make('location_id')
+                                    ->label('Konum')
+                                    ->relationship('location', 'name')
                                     ->searchable()
-                                    ->getSearchResultsUsing(function (string $search) {
-                                        if (strlen($search) < 3) return [];
-
-                                        $response = Http::get("https://api.aqtivite.com.tr/locations/search", [
-                                            'query' => $search
-                                        ]);
-
-                                        if ($response->failed()) return [];
-
-                                        return collect($response->json())
-                                            ->mapWithKeys(fn ($item) => [
-                                                json_encode($item) => $item['name'] . ' - ' . ($item['address'] ?? '')
-                                            ])
-                                            ->toArray();
-                                    })
-                                    ->live()
-                                    ->afterStateUpdated(function ($state, Set $set) {
-                                        if (!$state) return;
-
-                                        $data = json_decode($state, true);
-
-                                        $set('name', $data['name'] ?? null);
-                                        $set('ref_id', $data['ref_id'] ?? $data['id'] ?? null);
-                                        $set('address', $data['address'] ?? null);
-                                        $set('latitude', $data['latitude'] ?? null);
-                                        $set('longitude', $data['longitude'] ?? null);
-                                        $set('google_maps_uri', $data['google_maps_uri'] ?? null);
-                                    })
-                                    ->columnSpanFull()
-                                    ->helperText('Arama yaptıktan sonra bir mekan seçerseniz aşağıdaki alanlar otomatik dolar.'),
-
-                                Grid::make(3)->schema([
-                                    TextInput::make('name')
-                                        ->label('Mekan Adı')
-                                        ->required()
-                                        ->maxLength(255),
-
-                                    TextInput::make('ref_id')
-                                        ->label('Google Referans ID')
-                                        ->maxLength(255),
-                                ])->columns(2),
-
-                                Grid::make(2)->schema([
-                                    Select::make('province_id')
-                                        ->label('İl')
-                                        ->options(Province::pluck('name', 'id'))
-                                        ->searchable()
-                                        ->live()
-                                        ->required(),
-
-                                    Select::make('district_id')
-                                        ->label('İlçe')
-                                        ->options(fn(callable $get) => District::where('province_id', $get('province_id'))->pluck('name', 'id')
-                                        )
-                                        ->searchable()
-                                        ->nullable(),
-
-                                    TextInput::make('address')
-                                        ->label('Açık Adres')
-                                        ->required()
-                                        ->maxLength(500),
-                                ]),
-
-                                TextInput::make('google_maps_uri')
-                                    ->label('Google Haritalar Linki')
-                                    ->url()
-                                    ->columnSpanFull(),
-
-                                Grid::make(2)->schema([
-                                    TextInput::make('latitude')
-                                        ->label('Enlem')
-                                        ->numeric(),
-
-                                    TextInput::make('longitude')
-                                        ->label('Boylam')
-                                        ->numeric(),
-                                ]),
-
-                                DatePicker::make('started_at')
-                                    ->label('Başlangıç Tarihi')
+                                    ->preload()
                                     ->required(),
 
-                                DatePicker::make('ended_at')
+                                DateTimePicker::make('started_at')
+                                    ->label('Başlangıç Tarihi')
+                                    ->seconds(false)
+                                    ->required(),
+
+                                DateTimePicker::make('ended_at')
                                     ->label('Bitiş Tarihi')
+                                    ->seconds(false)
                                     ->required(),
                             ]),
 
@@ -199,16 +138,9 @@ class EventForm
                                         ->numeric()
                                         ->suffix('Kişi'),
 
-                                    Grid::make(2)->schema([
-                                        TextInput::make('purchase_link')
-                                            ->label('Satın Alma Linki')
-                                            ->url(),
-
-                                        TextInput::make('commission_rate')
-                                            ->label('Komisyon Oranı (%)')
-                                            ->numeric()
-                                            ->default(fn() => config('organizer.default_commission_rate', 10.0)),
-                                    ]),
+                                    TextInput::make('purchase_link')
+                                        ->label('Satın Alma Linki')
+                                        ->url(),
 
                                     Toggle::make('is_commentable')
                                         ->label('Yorumlara İzin Ver')
