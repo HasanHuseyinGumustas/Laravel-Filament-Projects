@@ -16,6 +16,6 @@ class Artist extends Model
 
     public function socialMediaUrl()
     {
-        return $this->belongsTo(SocialMediaUrl::class);
+        return $this->hasMany(SocialMediaUrl::class);
     }
 }

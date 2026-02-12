@@ -12,6 +12,8 @@ return new class extends Migration
     {
         Schema::create($this->table, function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(\App\Models\Artist::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->string('social_media_platform');
             $table->string('url');
             $table->timestamp('created_at', 6)->useCurrent();
             $table->timestamp('updated_at', 6)->useCurrent()->useCurrentOnUpdate();
