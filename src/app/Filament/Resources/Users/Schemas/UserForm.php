@@ -20,10 +20,6 @@ class UserForm
                     ->preload()
                     ->searchable(),
 
-                CheckboxList::make('roles')
-                    ->relationship('roles', 'name')
-                    ->searchable(),
-
                 TextInput::make('name')
                     ->required(),
                 TextInput::make('email')
@@ -31,9 +27,6 @@ class UserForm
                     ->email()
                     ->required(),
                 DateTimePicker::make('email_verified_at'),
-                TextInput::make('password')
-                    ->password()
-                    ->required(),
             ]);
     }
 }
