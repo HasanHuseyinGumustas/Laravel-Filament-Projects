@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SocialMediaUrl extends Model
+class SocialMediaPlatform extends Model
 {
     protected $fillable = [
-        'url',
-        'artist_id',
+        'name',
+        'icon_uri',
     ];
 
     public function artist()
