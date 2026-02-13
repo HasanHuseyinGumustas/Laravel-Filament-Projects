@@ -7,7 +7,7 @@ use App\Filament\Resources\SocialMediaUrls\Pages\EditSocialMediaUrls;
 use App\Filament\Resources\SocialMediaUrls\Pages\ListSocialMediaUrls;
 use App\Filament\Resources\SocialMediaUrls\Schemas\SocialMediaUrlsForm;
 use App\Filament\Resources\SocialMediaUrls\Tables\SocialMediaUrlsTable;
-use App\Models\SocialMediaUrls;
+use App\Models\SocialMediaUrl;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SocialMediaUrlsResource extends Resource
 {
-    protected static ?string $model = SocialMediaUrls::class;
+    protected static ?string $model = SocialMediaUrl::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
