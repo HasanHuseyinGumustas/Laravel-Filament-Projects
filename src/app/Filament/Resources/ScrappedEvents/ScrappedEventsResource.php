@@ -22,6 +22,10 @@ class ScrappedEventsResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+    protected  static ?string $navigationLabel = 'Onaylanacak Etkinlikler';
+
+    protected static string|null|\UnitEnum $navigationGroup = 'Etkinlikler';
+
     protected static ?string $recordTitleAttribute = 'ScrappedEvents';
 
     public static function form(Schema $schema): Schema

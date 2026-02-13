@@ -25,6 +25,8 @@ class EventResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Calendar;
     protected static ?string $navigationLabel = 'Etkinlikler';
+
+    protected static string|null|\UnitEnum $navigationGroup = 'Etkinlikler';
     protected static ?string $recordTitleAttribute = 'Event';
 
     public static function form(Schema $schema): Schema
