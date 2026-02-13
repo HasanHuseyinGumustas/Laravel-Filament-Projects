@@ -97,21 +97,6 @@ class Event extends Model implements HasMedia
         }
     }
 
-    public function scopeOrganizerAwareDateFilter(Builder $query, string $field, string $operator, Carbon $dateValue): Builder
-    {
-        return $query->where(function (Builder $query) use ($field, $operator, $dateValue) {
-            $query->whereNull('organizer_id')
-                ->where($field, $operator, $dateValue);
-
-            $query->orWhere(function (Builder $q) use ($field, $operator, $dateValue) {
-                $q->whereNotNull('organizer_id')
-                    ->whereHas('occurrences', function (Builder $occurrenceQuery) use ($field, $operator, $dateValue) {
-                        $occurrenceQuery->where($field, $operator, $dateValue);
-                    });
-            });
-        });
-    }
-
     public function getRouteKeyName(): string
     {
         return 'slug';

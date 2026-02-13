@@ -18,7 +18,9 @@ class EventCategoryResource extends Resource
 {
     protected static ?string $model = EventCategory::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::Tag;
+
+    protected static ?string $navigationLabel = 'Etkinlik Kategorileri';
 
     protected static ?string $recordTitleAttribute = 'name';
 
