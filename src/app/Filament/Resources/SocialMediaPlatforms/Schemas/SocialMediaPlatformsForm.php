@@ -19,13 +19,10 @@ class SocialMediaPlatformsForm
                     ->required()
                     ->maxLength(255),
 
-                Textarea::make('icon_uri')
-                    ->label('İkon (SVG Kodu)')
-                    ->placeholder('<svg ...> ... </svg>')
-                    ->rows(5)
+                TextInput::make('icon_uri')
+                    ->label('İkon Url')
+                    ->placeholder('Örn: https://example.com/icon.svg')
                     ->required()
-                    ->helperText('Platformun resmi SVG kodunu buraya yapıştırın.')
-                    ->hint(fn ($state) => $state ? new HtmlString('<div style="width: 24px; height: 24px; color: orange;">' . $state . '</div>') : null),
             ]);
     }
 }

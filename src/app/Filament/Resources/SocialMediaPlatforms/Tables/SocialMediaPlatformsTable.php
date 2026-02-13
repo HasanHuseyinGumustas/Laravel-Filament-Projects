@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
@@ -17,7 +18,15 @@ class SocialMediaPlatformsTable
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('id')
+                    ->label('ID')
+                    ->sortable(),
+                TextColumn::make('name')
+                    ->label('Ad')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('icon_uri')
+                    ->label('Simge URI'),
             ])
             ->filters([
                 TrashedFilter::make(),
