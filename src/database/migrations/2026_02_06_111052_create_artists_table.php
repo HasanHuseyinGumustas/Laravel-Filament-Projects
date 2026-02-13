@@ -14,6 +14,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\SocialMediaUrl::class);
             $table->string('name');
+            $table->text('description')->nullable();
             $table->timestamp('created_at', 6)->useCurrent();
             $table->timestamp('updated_at', 6)->useCurrent()->useCurrentOnUpdate();
             $table->timestamp('deleted_at', 6)->nullable();
